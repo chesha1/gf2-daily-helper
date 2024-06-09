@@ -3,10 +3,19 @@
 		"noEmit": true,
 		"module": "esnext",
 		"target": "esnext",
-		"lib": ["esnext"],
+		"lib": [
+			"esnext"
+		],
 		"strict": true,
 		"moduleResolution": "node",
-		"types": ["@cloudflare/workers-types"]
+		"types": [
+			"@cloudflare/workers-types"
+		],
+		"allowSyntheticDefaultImports": true,
 	},
-	"exclude": ["node_modules", "dist", "test"]
+	"exclude": [
+		"node_modules",
+		"dist",
+		"test"
+	]
 }
