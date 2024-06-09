@@ -37,11 +37,25 @@ async function ExchangeItem(exchange_id: number, token: string) {
 	const requestBody: exchangeRequestBody = {
 		exchange_id: exchange_id,
 	};
-	const requestHeader = {
-		Authorization: token,
-	} as AxiosRequestHeaders;
+	const requestHeader = { Authorization: token } as AxiosRequestHeaders;
 	try {
 		const response: AxiosResponse = await axios.post('https://gf2-bbs-api.sunborngame.com/community/item/exchange', requestBody, {
+			headers: requestHeader
+		});
+		return response.data;
+	}
+	catch (error) {
+		return error;
+	}
+}
+
+// 每日签到
+// 社区经验*55、社区积分*40、情报拼图*10
+async function SignIn(token: string) {
+	const requestHeader = { Authorization: token } as AxiosRequestHeaders;
+	const requestBody = {};
+	try {
+		const response: AxiosResponse = await axios.post('https://gf2-bbs-api.sunborngame.com/community/task/sign_in', requestBody, {
 			headers: requestHeader
 		});
 		return response.data;
@@ -59,7 +73,10 @@ export default {
 			source: 'phone',
 		};
 		const jwtToken: string = await Login(userPayload);
-		const data = await ExchangeItem(5, jwtToken);
+
+		// const data = await ExchangeItem(5, jwtToken);
+		const data = await SignIn(jwtToken);
+
 		const response = JSON.stringify(data);
 
 		return new Response(response);
