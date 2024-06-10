@@ -64,16 +64,17 @@ async function SignIn(token: string): Promise<void> {
 
 }
 
-// 获取帖子列表，只返回前5个帖子的 ID
+// 获取最新发布的帖子列表，只返回前3个帖子的 ID
 async function GetTopicList(token: string): Promise<number[]> {
 	const requestHeader = { Authorization: token } as AxiosRequestHeaders;
-	const response: AxiosResponse = await axios.get('https://gf2-bbs-api.sunborngame.com/community/topic/list',
+	const response: AxiosResponse = await axios.get('https://gf2-bbs-api.sunborngame.com/community/topic/list?sort_type=2',
 		{
 			headers: requestHeader
 		}
 	);
-	const topicIDs: number[] = response.data.data.list.map((item: { topic_id: number }) => item.topic_id);
-	return topicIDs.slice(0, 5);
+	const topicList = response.data.data.list.slice(0, 3);
+	const topicIDs: number[] = topicList.map((item: { topic_id: number }) => item.topic_id);
+	return topicIDs;
 }
 
 // 查看帖子，点赞和分享
