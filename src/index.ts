@@ -27,42 +27,72 @@ async function Login(payload: loginPayload): Promise<string> {
 			return error.response?.data;
 		}
 		else {
-			return 'An unknown error occurred';
+			let errorMessage: string;
+			if (error instanceof Error) {
+				errorMessage = error.message;
+			}
+			else {
+				errorMessage = 'An unknown error occurred';
+			}
+			return errorMessage;
 		}
 	}
 }
 
 // 兑换物品
-async function ExchangeItem(exchange_id: number, token: string) {
+async function ExchangeItem(exchange_id: number, token: string): Promise<void> {
 	const requestBody: exchangeRequestBody = {
 		exchange_id: exchange_id,
 	};
 	const requestHeader = { Authorization: token } as AxiosRequestHeaders;
-	try {
-		const response: AxiosResponse = await axios.post('https://gf2-bbs-api.sunborngame.com/community/item/exchange', requestBody, {
-			headers: requestHeader
-		});
-		return response.data;
-	}
-	catch (error) {
-		return error;
-	}
+
+	await axios.post('https://gf2-bbs-api.sunborngame.com/community/item/exchange', requestBody, {
+		headers: requestHeader
+	});
+
 }
 
 // 每日签到
 // 社区经验*55、社区积分*40、情报拼图*10
-async function SignIn(token: string) {
+async function SignIn(token: string): Promise<void> {
 	const requestHeader = { Authorization: token } as AxiosRequestHeaders;
 	const requestBody = {};
-	try {
-		const response: AxiosResponse = await axios.post('https://gf2-bbs-api.sunborngame.com/community/task/sign_in', requestBody, {
+
+	const response: AxiosResponse = await axios.post('https://gf2-bbs-api.sunborngame.com/community/task/sign_in', requestBody, {
+		headers: requestHeader
+	});
+
+}
+
+// 获取帖子列表，只返回前5个帖子的 ID
+async function GetTopicList(token: string): Promise<number[]> {
+	const requestHeader = { Authorization: token } as AxiosRequestHeaders;
+	const response: AxiosResponse = await axios.get('https://gf2-bbs-api.sunborngame.com/community/topic/list',
+		{
+			headers: requestHeader
+		}
+	);
+	const topicIDs: number[] = response.data.data.list.map((item: { topic_id: number }) => item.topic_id);
+	return topicIDs.slice(0, 5);
+}
+
+// 查看帖子，点赞和分享
+// 获得 40+40+40 社区积分
+async function TopicHandle(topic_id: number, token: string): Promise<void> {
+	const requestHeader = { Authorization: token } as AxiosRequestHeaders;
+	await axios.get(`https://gf2-bbs.sunborngame.com/threadInfo?id=${topic_id}`,
+		{
 			headers: requestHeader
 		});
-		return response.data;
-	}
-	catch (error) {
-		return error;
-	}
+
+	await axios.get(`https://gf2-bbs-api.sunborngame.com/community/topic/like/${topic_id}?id=${topic_id}`,
+		{
+			headers: requestHeader
+		});
+	await axios.get(`https://gf2-bbs-api.sunborngame.com/community/topic/share/${topic_id}?id=${topic_id}`,
+		{
+			headers: requestHeader
+		});
 }
 
 export default {
@@ -72,13 +102,18 @@ export default {
 			passwd: MD5(env.PASSWORD).toString(),
 			source: 'phone',
 		};
+
+		// 登录获取 jwt
 		const jwtToken: string = await Login(userPayload);
 
-		// const data = await ExchangeItem(5, jwtToken);
-		const data = await SignIn(jwtToken);
+		// 完成每日任务获取积分
+		const [_, topicList] = await Promise.all([SignIn(jwtToken), GetTopicList(jwtToken)]);
+		await Promise.all(topicList.map(element => TopicHandle(element, jwtToken)));
 
-		const response = JSON.stringify(data);
+		// 用积分兑换物品
+		const exchangeIDs: number[] = [1, 1, 2, 3, 4, 5];
+		await Promise.all(exchangeIDs.map(element => ExchangeItem(element, jwtToken)));
 
-		return new Response(response);
+		return new Response('Success');
 	},
 };
