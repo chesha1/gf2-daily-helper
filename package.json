@@ -1,11 +1,12 @@
 {
 	"name": "gf2-daily-helper",
 	"version": "0.0.0",
+	"main": "dist/index.js",
 	"private": true,
 	"scripts": {
-		"deploy": "wrangler deploy src/index.ts",
+		"deploy": "wrangler deploy src/index-cf.ts",
 		"dev": "wrangler dev",
-		"start": "wrangler dev"
+		"start": "node dist/index.js"
 	},
 	"devDependencies": {
 		"@cloudflare/workers-types": "^4.20240605.0",

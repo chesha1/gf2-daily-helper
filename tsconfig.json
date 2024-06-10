@@ -1,6 +1,6 @@
 {
 	"compilerOptions": {
-		"noEmit": true,
+		"noEmit": false,
 		"module": "esnext",
 		"target": "esnext",
 		"lib": [
@@ -12,7 +12,12 @@
 			"@cloudflare/workers-types"
 		],
 		"allowSyntheticDefaultImports": true,
+		"outDir": "./dist",
+		"rootDir": "./src"
 	},
+	"include": [
+		"src/**/*"
+	],
 	"exclude": [
 		"node_modules",
 		"dist",
