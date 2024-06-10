@@ -1,3 +1,6 @@
 name = "gf2-daily-helper"
 main = "./src/index-cf.ts"
 compatibility_date = "2024-06-08"
+
+[triggers]
+crons = ["5 0 * * *"]
