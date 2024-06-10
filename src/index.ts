@@ -65,13 +65,8 @@ async function SignIn(token: string): Promise<void> {
 }
 
 // 获取最新发布的帖子列表，只返回前3个帖子的 ID
-async function GetTopicList(token: string): Promise<number[]> {
-	const requestHeader = { Authorization: token } as AxiosRequestHeaders;
-	const response: AxiosResponse = await axios.get('https://gf2-bbs-api.sunborngame.com/community/topic/list?sort_type=2',
-		{
-			headers: requestHeader
-		}
-	);
+async function GetTopicList(): Promise<number[]> {
+	const response: AxiosResponse = await axios.get('https://gf2-bbs-api.sunborngame.com/community/topic/list?sort_type=2');
 	const topicList = response.data.data.list.slice(0, 3);
 	const topicIDs: number[] = topicList.map((item: { topic_id: number }) => item.topic_id);
 	return topicIDs;
@@ -104,12 +99,14 @@ export default {
 			source: 'phone',
 		};
 
-		// 登录获取 jwt
-		const jwtToken: string = await Login(userPayload);
+		// 登录获取 jwt，获取帖子列表
+		const [jwtToken, topicList] = await Promise.all([Login(userPayload), GetTopicList()]);
 
 		// 完成每日任务获取积分
-		const [_, topicList] = await Promise.all([SignIn(jwtToken), GetTopicList(jwtToken)]);
-		await Promise.all(topicList.map(element => TopicHandle(element, jwtToken)));
+		await Promise.all([
+			SignIn(jwtToken),
+			...topicList.map(element => TopicHandle(element, jwtToken))
+		]);
 
 		// 用积分兑换物品
 		const exchangeIDs: number[] = [1, 1, 2, 3, 4, 5];
