@@ -1,6 +1,6 @@
 // aws lambda entrypoint
-import MD5 from 'crypto-js/md5';
-import { loginPayload, DailyTask } from './service';
+import MD5 from 'crypto-js/md5.js';
+import { loginPayload, DailyTask } from './service.js';
 
 export async function handler(event: Event) {
     const userPayload: loginPayload = {
