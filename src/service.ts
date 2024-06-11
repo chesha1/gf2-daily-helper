@@ -13,6 +13,7 @@ export interface loginPayload {
 async function Login(payload: loginPayload): Promise<string> {
     try {
         const response: AxiosResponse = await axios.post('https://gf2-bbs-api.sunborngame.com/login/account', payload);
+        console.log(response.data);
         return response.data.data.account.token as string;
     }
     catch (error) {
@@ -43,9 +44,10 @@ async function ExchangeItem(exchange_id: number, token: string): Promise<void> {
     };
     const requestHeader = { Authorization: token } as AxiosRequestHeaders;
 
-    await axios.post('https://gf2-bbs-api.sunborngame.com/community/item/exchange', requestBody, {
+    const response = await axios.post('https://gf2-bbs-api.sunborngame.com/community/item/exchange', requestBody, {
         headers: requestHeader
     });
+    console.log(response.data);
 
 }
 
@@ -55,9 +57,10 @@ async function SignIn(token: string): Promise<void> {
     const requestHeader = { Authorization: token } as AxiosRequestHeaders;
     const requestBody = {};
 
-    await axios.post('https://gf2-bbs-api.sunborngame.com/community/task/sign_in', requestBody, {
+    const response = await axios.post('https://gf2-bbs-api.sunborngame.com/community/task/sign_in', requestBody, {
         headers: requestHeader
     });
+    console.log(response.data);
 
 }
 
@@ -66,6 +69,7 @@ async function GetTopicList(): Promise<number[]> {
     const response: AxiosResponse = await axios.get('https://gf2-bbs-api.sunborngame.com/community/topic/list?sort_type=2');
     const topicList = response.data.data.list.slice(0, 3);
     const topicIDs: number[] = topicList.map((item: { topic_id: number }) => item.topic_id);
+    console.log(topicIDs);
     return topicIDs;
 }
 
@@ -73,19 +77,23 @@ async function GetTopicList(): Promise<number[]> {
 // 获得 40+40+40 社区积分
 async function TopicHandle(topic_id: number, token: string): Promise<void> {
     const requestHeader = { Authorization: token } as AxiosRequestHeaders;
-    await axios.get(`https://gf2-bbs.sunborngame.com/threadInfo?id=${topic_id}`,
+    let response = await axios.get(`https://gf2-bbs.sunborngame.com/threadInfo?id=${topic_id}`,
         {
             headers: requestHeader
         });
+    console.log(response.data);
 
-    await axios.get(`https://gf2-bbs-api.sunborngame.com/community/topic/like/${topic_id}?id=${topic_id}`,
+    response = await axios.get(`https://gf2-bbs-api.sunborngame.com/community/topic/like/${topic_id}?id=${topic_id}`,
         {
             headers: requestHeader
         });
-    await axios.get(`https://gf2-bbs-api.sunborngame.com/community/topic/share/${topic_id}?id=${topic_id}`,
+    console.log(response.data);
+
+    response = await axios.get(`https://gf2-bbs-api.sunborngame.com/community/topic/share/${topic_id}?id=${topic_id}`,
         {
             headers: requestHeader
         });
+    console.log(response.data);
 }
 
 export async function DailyTask(userPayload: loginPayload): Promise<void> {
