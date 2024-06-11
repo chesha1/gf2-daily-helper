@@ -2,8 +2,8 @@ name: Build and Package
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - "v*"
 
 jobs:
   build:
@@ -27,12 +27,34 @@ jobs:
           cp package.json dist/
           cd dist
           npm install --production --legacy-peer-deps
+          zip -r ../deploy-aws.zip .
 
-      - name: Upload AWS ZIP to Artifacts
-        uses: actions/upload-artifact@v4
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: deploy-aws
-          path: dist/
+          tag_name: ${{ github.ref_name }}
+          release_name: Release ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./deploy-aws.zip
+          asset_name: deploy-aws.zip
+          asset_content_type: application/zip
+
+      # - name: Upload AWS ZIP to Artifacts
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: deploy-aws
+      #     path: dist/
 
       # - name: Build for Aliyun
       #   run: |
