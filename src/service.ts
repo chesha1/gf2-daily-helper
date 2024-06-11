@@ -1,3 +1,6 @@
+// daily tasks login
+// shared by entrypoints of cloudflare worker, aws lambda and aliyun fc
+
 import axios, { AxiosResponse, AxiosRequestHeaders } from 'axios';
 
 export interface loginPayload {

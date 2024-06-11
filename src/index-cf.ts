@@ -1,5 +1,8 @@
+// Cloudflare Worker Entrypoint
+
 import MD5 from 'crypto-js/md5';
 import { loginPayload, DailyTask } from './service';
+import { WorkerEntrypoint } from 'cloudflare:workers';
 
 export interface Env {
 	PASSWORD: string;
@@ -7,17 +10,6 @@ export interface Env {
 }
 
 export default {
-	async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
-		const userPayload: loginPayload = {
-			account_name: env.ACCOUNT_NAME,
-			passwd: MD5(env.PASSWORD).toString(),
-			source: 'phone',
-		};
-
-		await DailyTask(userPayload);
-
-		return new Response('Success');
-	},
 	async scheduled(event: Event, env: Env, ctx: ExecutionContext) {
 		const userPayload: loginPayload = {
 			account_name: env.ACCOUNT_NAME,
