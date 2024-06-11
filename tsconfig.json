@@ -10,7 +10,7 @@
 		"strict": true,
 		"moduleResolution": "node",
 		"types": [
-			"@cloudflare/workers-types",
+			// "@cloudflare/workers-types",
 			"node"
 		],
 		"allowSyntheticDefaultImports": true,
