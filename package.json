@@ -7,12 +7,14 @@
 		"deploy": "wrangler deploy src/index-cf.ts",
 		"dev": "wrangler dev",
 		"start": "node dist/index.js",
-		"build": "tsc"
+		"build": "npm run clean && tsc",
+		"clean": "rm -rf dist"
 	},
 	"devDependencies": {
 		"@cloudflare/workers-types": "^4.20240605.0",
 		"@eslint/js": "^9.4.0",
 		"@types/crypto-js": "^4.2.2",
+		"@types/node": "^20.14.2",
 		"eslint": "^9.4.0",
 		"globals": "^15.4.0",
 		"prettier": "3.3.1",

@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		"incremental": false,
 		"noEmit": false,
 		"module": "esnext",
 		"target": "esnext",
@@ -9,7 +10,8 @@
 		"strict": true,
 		"moduleResolution": "node",
 		"types": [
-			"@cloudflare/workers-types"
+			"@cloudflare/workers-types",
+			"node"
 		],
 		"allowSyntheticDefaultImports": true,
 		"outDir": "./dist",

@@ -2,15 +2,10 @@
 import MD5 from 'crypto-js/md5';
 import { loginPayload, DailyTask } from './service';
 
-interface Event {
-    PASSWORD: string;
-    ACCOUNT_NAME: string;
-}
-
 export async function handler(event: Event) {
     const userPayload: loginPayload = {
-        account_name: event.ACCOUNT_NAME,
-        passwd: MD5(event.PASSWORD).toString(),
+        account_name: process.env.ACCOUNT_NAME as string,
+        passwd: MD5(process.env.PASSWORD as string).toString(),
         source: 'phone',
     };
 
