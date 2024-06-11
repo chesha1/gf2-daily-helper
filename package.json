@@ -1,12 +1,10 @@
 {
 	"name": "gf2-daily-helper",
 	"version": "0.0.0",
-	"main": "dist/index.js",
 	"private": true,
 	"scripts": {
-		"deploy": "wrangler deploy src/index-cf.ts",
+		"deploy": "wrangler deploy",
 		"dev": "wrangler dev",
-		"start": "node dist/index.js",
 		"build": "npm run clean && tsc",
 		"clean": "rm -rf dist"
 	},

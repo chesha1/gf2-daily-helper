@@ -25,6 +25,9 @@ jobs:
           mv src/index-aws.ts src/index.ts
           npm run build
           cp package.json dist/
+          for file in dist/*.js; do mv "$file" "${file%.js}.mjs"; done
+          cd dist
+          npm install --production --legacy-peer-deps
       # cd dist
       # zip -r ../deploy-aws.zip .
       # cd ..
