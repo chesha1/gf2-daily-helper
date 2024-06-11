@@ -1,0 +1,51 @@
+name: Build and Package
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Build for AWS
+        run: |
+          mv src/index-aws.ts src/index.ts
+          npm run build
+          cp package.json dist/
+          cd dist
+          zip -r ../deploy-aws.zip .
+          cd ..
+
+      - name: Upload AWS ZIP to Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: deploy-aws
+          path: deploy-aws.zip
+
+      # - name: Build for Aliyun
+      #   run: |
+      #     mv src/index-aliyun.ts src/index.ts
+      #     rm -rf dist
+      #     npm run build
+      #     cp package.json dist/
+      #     cd dist
+      #     zip -r ../deploy-aliyun.zip .
+
+      # - name: Upload Aliyun ZIP to Artifacts
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: deploy-aliyun
+      #     path: deploy-aliyun.zip

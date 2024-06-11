@@ -16,7 +16,7 @@
 		"rootDir": "./src"
 	},
 	"include": [
-		"src/**/*"
+		"src/index-aws.ts"
 	],
 	"exclude": [
 		"node_modules",
