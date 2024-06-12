@@ -12,7 +12,7 @@ Girls' Frontline 2 Exilium Official Community Check-in Helper
 
 ## 使用方法
 目前支持 3 种使用方法：
-1. Cloudflare Worker（推荐）
+1. Cloudflare Worker
 2. AWS Lambda
 3. 阿里云 函数计算（中国大陆用户推荐）
 
@@ -21,6 +21,8 @@ Girls' Frontline 2 Exilium Official Community Check-in Helper
 
 只需要 `git clone` 本项目，`npm i --legacy-peer-deps` 安装依赖后
 
-直接 `npx wrangler deploy` 即可，在每天的 UTC 时间 00:05，就会执行每日任务
+直接 `npx wrangler deploy` 即可，在每天的 UTC 时间 21:05（北京时间 05:05），就会执行每日任务
 
 如果需要修改执行时间，可以到 `wrangler.toml` 中修改 cron 表达式
+
+还需要到 web 界面添加两个环境变量 `ACCOUNT_NAME` 和 `PASSWORD`
