@@ -77,18 +77,22 @@ async function GetTopicList(): Promise<number[]> {
 // 获得 40+40+40 社区积分
 async function TopicHandle(topic_id: number, token: string): Promise<void> {
     const requestHeader = { Authorization: token } as AxiosRequestHeaders;
-    let response = await axios.get(`https://gf2-bbs.sunborngame.com/threadInfo?id=${topic_id}`,
+
+    // 访问
+    let response = await axios.get(`https://gf2-bbs-api.sunborngame.com/community/topic/${topic_id}?id=${topic_id}`,
         {
             headers: requestHeader
         });
     console.log(response.data);
 
+    // 点赞
     response = await axios.get(`https://gf2-bbs-api.sunborngame.com/community/topic/like/${topic_id}?id=${topic_id}`,
         {
             headers: requestHeader
         });
     console.log(response.data);
 
+    // 分享
     response = await axios.get(`https://gf2-bbs-api.sunborngame.com/community/topic/share/${topic_id}?id=${topic_id}`,
         {
             headers: requestHeader
