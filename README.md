@@ -27,7 +27,7 @@ Girls' Frontline 2 Exilium Official Community Check-in Helper
 
 还需要到 web 界面添加两个环境变量 `ACCOUNT_NAME` 和 `PASSWORD`
 
-但是需要消耗的 CPU Time 大约为 30 ms，已经超过 [Workers Free Plan 的限制](https://developers.cloudflare.com/workers/platform/pricing/#workers)，如果不是付费用户，不太建议使用
+**但是需要消耗的 CPU Time 大约为 30 ms，已经超过 [Workers Free Plan 的限制](https://developers.cloudflare.com/workers/platform/pricing/#workers)，如果不是付费用户，不太建议使用**
 
 ### AWS Lambda
 到 [Release 界面](https://github.com/chesha1/gf2-daily-helper/releases)下载 `deploy-aws.zip`
@@ -54,6 +54,6 @@ Girls' Frontline 2 Exilium Official Community Check-in Helper
 
 到 CloudWatch 里可以查看运行的日志
 
-和 Cloudflare 不一样，使用 AWS 部署 gf2-daily-helper 是完全免费的，用量远远达不到免费额度的上限
+**和 Cloudflare 不一样，使用 AWS 部署 gf2-daily-helper 是完全免费的，用量远远达不到免费额度的上限**
 
 ### 阿里云函数计算
