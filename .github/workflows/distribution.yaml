@@ -29,6 +29,16 @@ jobs:
           npm install --production --legacy-peer-deps
           zip -r ../deploy-aws.zip .
 
+      - name: Build for Huawei Cloud
+        run: |
+          mv src/index-huawei-cloud.ts src/index.ts
+          npm run clean
+          tsc --module CommonJS --target ES6
+          cp package.json dist/
+          cd dist
+          npm install --production --legacy-peer-deps
+          zip -r ../deploy-huawei-cloud.zip .
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -40,7 +50,7 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Upload Release Asset
+      - name: Upload Release Asset AWS
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -50,22 +60,12 @@ jobs:
           asset_name: deploy-aws.zip
           asset_content_type: application/zip
 
-      # - name: Upload AWS ZIP to Artifacts
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: deploy-aws
-      #     path: dist/
-
-      # - name: Build for Aliyun
-      #   run: |
-      #     mv src/index-aliyun.ts src/index.ts
-      #     npm run build
-      #     cp package.json dist/
-      #     cd dist
-      #     zip -r ../deploy-aliyun.zip .
-
-      # - name: Upload Aliyun ZIP to Artifacts
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: deploy-aliyun
-      #     path: deploy-aliyun.zip
+      - name: Upload Release Asset Huawei Cloud
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./deploy-huawei-cloud.zip
+          asset_name: deploy-huawei-cloud.zip
+          asset_content_type: application/zip
