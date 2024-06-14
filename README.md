@@ -19,9 +19,7 @@ Girls' Frontline 2 Exilium Official Community Check-in Helper
 ### Cloudflare Worker
 本项目原生基于 Cloudflare Worker 开发，部署在 Cloudflare Worker 是最简单的
 
-只需要 `git clone` 本项目，`npm i --legacy-peer-deps` 安装依赖后
-
-直接 `npx wrangler deploy` 即可，在每天的 UTC 时间 21:05（北京时间 05:05），就会执行每日任务
+只需要 `git clone` 本项目，直接 `npx wrangler deploy` 即可，在每天的 UTC 时间 21:05（北京时间 05:05），就会执行每日任务
 
 如果需要修改执行时间，可以到 `wrangler.toml` 中修改 cron 表达式
 
