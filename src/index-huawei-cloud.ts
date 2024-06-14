@@ -1,12 +1,13 @@
 // huawei cloud FunctionGraph entrypoint
-// use tsc --module CommonJS --target ES6 to compile to CommonJS
+// use tsc --module CommonJS to compile to CommonJS
 import MD5 from 'crypto-js/md5.js';
 import { loginPayload, DailyTask } from './service.js';
+import { Context } from 'vm';
 
-export async function handler(event: Event) {
+export async function handler(event: Event, context: Context) {
     const userPayload: loginPayload = {
-        account_name: process.env.ACCOUNT_NAME as string,
-        passwd: MD5(process.env.PASSWORD as string).toString(),
+        account_name: context.getUserData('ACCOUNT_NAME') as string,
+        passwd: MD5(context.getUserData('PASSWORD') as string).toString(),
         source: 'phone',
     };
 

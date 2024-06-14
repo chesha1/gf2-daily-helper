@@ -33,7 +33,7 @@ jobs:
         run: |
           mv src/index-huawei-cloud.ts src/index.ts
           npm run clean
-          tsc --module CommonJS --target ES6
+          tsc --module CommonJS --target ES6 --esModuleInterop true
           cp package.json dist/
           cd dist
           npm install --production --legacy-peer-deps
