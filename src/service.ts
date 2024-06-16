@@ -1,5 +1,5 @@
-// daily tasks login
-// shared by entrypoints of cloudflare worker, aws lambda and aliyun fc
+// daily tasks logic
+// shared by entrypoints of cloudflare worker, aws lambda and huawei cloud functiongraph
 
 import axios, { AxiosResponse, AxiosRequestHeaders } from 'axios';
 
