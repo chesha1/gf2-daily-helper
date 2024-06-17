@@ -5,6 +5,8 @@ Girls' Frontline 2 Exilium Official Community Check-in Helper
 
 自动化完成签到、获取积分、兑换物品，部署到云厂商的 serverless 服务上，可以实现全自动完成任务
 
+详细的视频介绍：https://www.bilibili.com/video/BV1vS411A7i5/
+
 > [!CAUTION]
 > 使用自动化工具可能导致您的账号被封，请谨慎考虑是否使用
 
@@ -91,5 +93,6 @@ GCP 对于中国大陆的用户，可能网络不可达
 ## 未来开发
 - [ ] 将 `crypto-js` 更换为 `node:crypto`
 - [ ] 将 `axios.xxx` 更换为 `fetch`（在国内公有云将 node.js 运行时升级到 v18 之后）
+- [ ] 详细的图文教程，AWS 和华为云如何部署
 
 别忘了测试各个平台的兼容性
