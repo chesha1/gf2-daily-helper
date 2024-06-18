@@ -1,6 +1,6 @@
 // Cloudflare Worker Entrypoint
 
-import MD5 from 'crypto-js/md5';
+import crypto from 'node:crypto';
 import { loginPayload, DailyTask } from './service';
 
 export interface Env {
@@ -12,7 +12,7 @@ export default {
 	async scheduled(event: Event, env: Env, ctx) {
 		const userPayload: loginPayload = {
 			account_name: env.ACCOUNT_NAME,
-			passwd: MD5(env.PASSWORD).toString(),
+			passwd: crypto.createHash('md5').update(env.PASSWORD).digest('hex'),
 			source: 'phone',
 		};
 

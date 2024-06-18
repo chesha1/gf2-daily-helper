@@ -1,11 +1,12 @@
 // aws lambda entrypoint
-import MD5 from 'crypto-js/md5.js';
+
+import crypto from 'node:crypto';
 import { loginPayload, DailyTask } from './service.js';
 
 export async function handler(event: Event) {
     const userPayload: loginPayload = {
         account_name: process.env.ACCOUNT_NAME as string,
-        passwd: MD5(process.env.PASSWORD as string).toString(),
+        passwd: crypto.createHash('md5').update(process.env.PASSWORD as string).digest('hex'),
         source: 'phone',
     };
 

@@ -1,6 +1,7 @@
 name = "gf2-daily-helper"
 main = "./src/index-cf.ts"
 compatibility_date = "2024-06-08"
+compatibility_flags = ["nodejs_compat"]
 
 [triggers]
 crons = ["5 21 * * *"]
