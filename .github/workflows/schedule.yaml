@@ -3,7 +3,7 @@ name: Scheduled Job
 on:
   workflow_dispatch:
   schedule:
-    - cron: "35 13 * * *"
+    - cron: "5 18 * * *"
 jobs:
   run-scheduled-task:
     runs-on: ubuntu-latest

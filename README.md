@@ -16,10 +16,11 @@ Girls' Frontline 2 Exilium Official Community Check-in Helper
 由于每天获得的积分，在兑换完每日资源后，只剩 10 个积分，所以有时候需要积累几天，不能立即兑换信息核
 
 ## 使用方法
-目前提供 3 种部署方法：
+目前提供 4 种部署方法：
 1. Cloudflare Worker
 2. AWS Lambda
 3. 华为云 函数工作流（推荐中国大陆用户使用）
+4. [Github Actions](./docs/github-actions.md)
 
 ### Cloudflare Worker
 本项目原生基于 Cloudflare Worker 开发，部署在 Cloudflare Worker 是最简单的
@@ -91,7 +92,7 @@ GCP 对于中国大陆的用户，可能网络不可达
 截至 2024 年 6 月 14 日，还能用
 
 ## 未来开发
-- [ ] GitHub Actions 部署
+- [x] GitHub Actions 部署
 - [x] 将 `crypto-js` 更换为 `node:crypto`
 - [ ] 将 `axios.xxx` 更换为 `fetch`（在国内公有云将 node.js 运行时升级到 v18 之后）
 - [ ] 详细的图文教程，AWS 和华为云如何部署
