@@ -1,0 +1,34 @@
+name: Scheduled Job
+
+on:
+  schedule:
+    # - cron: "5 21 * * *" # 每天UTC时间晚上9点05分触发，北京时间早上5点05分
+    - cron: "40 12 * * *" # 每天UTC时间晚上9点05分触发，北京时间早上5点05分
+
+jobs:
+  run-scheduled-task:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Read environment variable
+        run: echo "ENV_VAR_VALUE=${{ vars.RUN_TASK }}" >> $GITHUB_ENV
+
+      - name: Run TypeScript script
+        if: env.ENV_VAR_VALUE == 'true'
+        run: |
+          mv src/index-github-actions.ts src/index.ts
+          npm run build
+          cp package.json dist/
+          cd dist
+          npm install --production --legacy-peer-deps
+          node index.js
+        env:
+          ACCOUNT_NAME: ${{ secrets.ACCOUNT_NAME }}
+          PASSWORD: ${{ secrets.PASSWORD }}
