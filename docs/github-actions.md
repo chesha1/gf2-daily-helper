@@ -37,7 +37,7 @@
 
 GitHub Actions 的定时任务并不会准时运行，一般需要排队一会儿，有的人甚至反映需要排队几个小时
 
-如果不想这个任务继续运行，把 `RUN_TASK` 值从 `true` 改为其他任意值即可
+如果不想这个任务继续运行，把 `RUN_TASK` 值从 `true` 改为其他任意值即可，或者在 Actions 界面手动 Disable workflow
 
 GitHub 官方说，如果仓库 60 天没有活动，会暂停所有 workflows，所以我引入了[一个 workflow ](https://github.com/marketplace/actions/keepalive-workflow)来保活，暂时无法测试是否有效果
 
