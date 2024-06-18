@@ -3,7 +3,7 @@ name: Scheduled Job
 on:
   workflow_dispatch:
   schedule:
-    - cron: "20 13 * * *"
+    - cron: "35 13 * * *"
 jobs:
   run-scheduled-task:
     runs-on: ubuntu-latest
@@ -32,3 +32,7 @@ jobs:
         env:
           ACCOUNT_NAME: ${{ secrets.ACCOUNT_NAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
+
+      - name: Keep alive
+        uses: gautamkrishnar/keepalive-workflow@v2
+        if: env.ENV_VAR_VALUE == 'true'
