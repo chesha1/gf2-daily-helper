@@ -92,7 +92,7 @@ GCP 对于中国大陆的用户，可能网络不可达
 
 ## 未来开发
 - [ ] GitHub Actions 部署
-- [ ] 将 `crypto-js` 更换为 `node:crypto`
+- [x] 将 `crypto-js` 更换为 `node:crypto`
 - [ ] 将 `axios.xxx` 更换为 `fetch`（在国内公有云将 node.js 运行时升级到 v18 之后）
 - [ ] 详细的图文教程，AWS 和华为云如何部署
 
