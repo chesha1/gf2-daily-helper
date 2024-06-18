@@ -2,9 +2,7 @@ name: Scheduled Job
 
 on:
   schedule:
-    # - cron: "5 21 * * *" # 每天UTC时间晚上9点05分触发，北京时间早上5点05分
-    - cron: "40 12 * * *" # 每天UTC时间晚上9点05分触发，北京时间早上5点05分
-
+    - cron: "57 12 * * *"
 jobs:
   run-scheduled-task:
     runs-on: ubuntu-latest
