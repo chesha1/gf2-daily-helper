@@ -9,6 +9,9 @@ export interface Env {
 }
 
 export default {
+	async fetch() {
+		return new Response('Forbidden', { status: 403 });
+	},
 	async scheduled(event: Event, env: Env, ctx) {
 		const userPayload: loginPayload = {
 			account_name: env.ACCOUNT_NAME,
