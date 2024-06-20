@@ -10,6 +10,8 @@
 2. 添加两个仓库 secrets `ACCOUNT_NAME` 和 `PASSWORD`，填写自己的散爆账号和密码
 3. 添加仓库 variables `RUN_TASK`，并将值设置为 true
 4. 在 Settings-Actions-General 中，修改 Workflow permissions 为 Read and write permissions
+5. 点击仓库的 Actions，再点击 I understand my workflows, go ahead and enable them 启用 Actions
+6. 在侧边栏找到 Scheduled Job 并点击，再点击右侧的 Enable workflow 启用 Actions
 
 这样在北京时间，每天的早上 2 点 5 分，就会触发任务了
 ## 如果你是不太懂 GitHub 的用户
@@ -30,6 +32,10 @@
    ![7](./assets/github-actions-7.png)
 9. 在当前页面中往下滑，找到 Workflow permissions，修改为 Read and write permissions，如下图
    ![8](./assets/github-actions-8.png)
+10. 点击仓库的 Actions，再点击 I understand my workflows, go ahead and enable them 启用 Actions(下图不是本仓库的截图，但是操作方法类似，可以参考)
+   ![8](./assets/github-actions-9.jpg)
+11. 在侧边栏找到 Scheduled Job 并点击，再点击右侧的 Enable workflow 启用 Actions(下图不是本仓库的截图，但是操作方法类似，可以参考)
+   ![8](./assets/github-actions-10.jpg)
    
 
 ## 其他注意事项
