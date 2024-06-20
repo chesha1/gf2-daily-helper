@@ -17,21 +17,10 @@ Girls' Frontline 2 Exilium Official Community Check-in Helper
 
 ## 使用方法
 目前提供 4 种部署方法：
-1. Cloudflare Worker
+1. [Cloudflare Worker](./docs/cloudflare.md)
 2. AWS Lambda
 3. 华为云 函数工作流（推荐中国大陆用户使用）
 4. [Github Actions](./docs/github-actions.md)
-
-### Cloudflare Worker
-本项目原生基于 Cloudflare Worker 开发，部署在 Cloudflare Worker 是最简单的
-
-只需要 `git clone` 本项目，直接 `npx wrangler deploy` 即可，在每天的 UTC 时间 21:05（北京时间 05:05），就会执行每日任务
-
-如果需要修改执行时间，可以到 `wrangler.toml` 中修改 cron 表达式
-
-还需要到 web 界面添加两个环境变量 `ACCOUNT_NAME` 和 `PASSWORD`
-
-**但是需要消耗的 CPU Time 大约为 30 ms，已经超过 [Workers Free Plan 的限制](https://developers.cloudflare.com/workers/platform/pricing/#workers)，如果不是付费用户，不太建议使用**
 
 ### AWS Lambda
 **请注意，AWS 的注册需要一张外币信用卡**
@@ -96,5 +85,6 @@ GCP 对于中国大陆的用户，可能网络不可达
 - [x] 将 `crypto-js` 更换为 `node:crypto`
 - [ ] 将 `axios.xxx` 更换为 `fetch`（在国内公有云将 node.js 运行时升级到 v18 之后）
 - [ ] 详细的图文教程，AWS 和华为云如何部署
+- [ ] 将 cloudflare 的运行时间优化到 10 ms 以内
 
 别忘了测试各个平台的兼容性
