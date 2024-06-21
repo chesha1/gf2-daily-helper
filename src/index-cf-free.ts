@@ -1,4 +1,5 @@
-// Cloudflare Worker Entrypoint
+// Cloudflare Worker Free Plan Entrypoint
+// todo here
 
 import crypto from 'node:crypto';
 import { loginPayload, DailyTask } from './service';
