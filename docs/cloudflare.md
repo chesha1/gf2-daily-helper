@@ -1,7 +1,7 @@
 <h1>Cloudflare Worker 部署方法</h1>
 
 > [!NOTE]  
-> 并不推荐 cloudflare worker 免费用户使用 cloudflare 部署，免费计划版本的每日助手用了一些方法尽量让 CPU 时间在 10 ms 以内，满足 [Workers Free Plan 的限制](https://developers.cloudflare.com/workers/platform/pricing/#workers)，感觉不太稳定
+> 并不推荐 cloudflare worker 免费用户使用 cloudflare 部署，免费计划版本的每日助手需要尽量让 CPU 时间在 10 ms 以内，满足 [Workers Free Plan 的限制](https://developers.cloudflare.com/workers/platform/pricing/#workers)，感觉不太稳定
 
 - [如果你是 cloudflare worker 付费用户](#如果你是-cloudflare-worker-付费用户)
 - [如果你是 cloudflare worker 免费用户](#如果你是-cloudflare-worker-免费用户)
@@ -21,4 +21,30 @@
 如果需要修改执行时间，可以到 [wrangler.toml](../wrangler.toml) 中修改 cron 表达式
 
 # 如果你是 cloudflare worker 免费用户
-开发中
+一个简单的方法是：不等返回了，拿到 jwtToken 就发一堆子请求，这样每个子请求的 CPU 时间可能可以保证在 10 ms 以内
+
+但经过一番研究，发现并不可行，cloudflare 不允许 worker 调用自己提供的 rpc 方法
+
+日志里有一堆状态为 Canceled 的调用，其中一个日志的示例如下：
+
+```json
+{
+  "outcome": "canceled",
+  "scriptVersion": {
+    "id": "13c73505-542f-431a-ac12-5ba536659677"
+  },
+  "scriptName": "gf2-daily-helper",
+  "diagnosticsChannelEvents": [],
+  "exceptions": [],
+  "logs": [],
+  "eventTimestamp": 1718980612053,
+  "event": {
+    "rpcMethod": "serviceTopicHandle"
+  },
+  "id": 0
+}
+```
+
+内部运行机制不清楚，但是就算这样可以，也很依赖 cloudflare 内部的机制，cloudflare 不保证内部行为不变，但是付费版的行为基本上只依赖 Node.js 运行时，是很稳定的
+
+如果把这些提供 rpc 方法的逻辑拆出来单独作为一个 worker 或许可以，但是需要部署两遍，就会很麻烦，如果用 cloudflare 变得如此麻烦，那不如去用 AWS 或者华为云了，它们也是免费的

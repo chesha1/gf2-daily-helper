@@ -1,5 +1,5 @@
 name = "gf2-daily-helper"
-main = "./src/index-cf-paid.ts"
+main = "./src/index-cf.ts"
 compatibility_date = "2024-06-08"
 compatibility_flags = ["nodejs_compat"]
 
