@@ -14,7 +14,15 @@ async function Login(payload: loginPayload): Promise<string> {
     try {
         const response: AxiosResponse = await axios.post('https://gf2-bbs-api.sunborngame.com/login/account', payload);
         console.log(response.data);
-        return response.data.data.account.token as string;
+        if (response.data.code === 0) {
+            return response.data.data.account.token as string;
+        }
+        else {
+            payload.source = 'mail';
+            const response: AxiosResponse = await axios.post('https://gf2-bbs-api.sunborngame.com/login/account', payload);
+            console.log(response.data);
+            return response.data.data.account.token as string;
+        }
     }
     catch (error) {
         if (axios.isAxiosError(error)) {
