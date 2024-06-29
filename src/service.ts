@@ -1,7 +1,5 @@
 // daily tasks logic
-// shared by entrypoints of cloudflare worker, aws lambda and huawei cloud functiongraph
-
-import axios, { AxiosResponse, AxiosRequestHeaders } from 'axios';
+// shared by entrypoints of cloudflare worker, aws lambda and so on
 
 export interface loginPayload {
     account_name: string;
@@ -12,32 +10,38 @@ export interface loginPayload {
 // 登录，然后提取出 jwt
 async function Login(payload: loginPayload): Promise<string> {
     try {
-        const response: AxiosResponse = await axios.post('https://gf2-bbs-api.sunborngame.com/login/account', payload);
-        console.log(response.data);
-        if (response.data.Code === 0) {
-            return response.data.data.account.token as string;
-        }
-        else {
+        const response = await fetch('https://gf2-bbs-api.sunborngame.com/login/account', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+        const data = await response.json();
+        console.log(data);
+        if (data.Code === 0) {
+            return data.data.account.token as string;
+        } else {
             payload.source = 'mail';
-            const response: AxiosResponse = await axios.post('https://gf2-bbs-api.sunborngame.com/login/account', payload);
-            console.log(response.data);
-            return response.data.data.account.token as string;
+            const response = await fetch('https://gf2-bbs-api.sunborngame.com/login/account', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+            const data = await response.json();
+            console.log(data);
+            return data.data.account.token as string;
         }
-    }
-    catch (error) {
-        if (axios.isAxiosError(error)) {
-            return error.response?.data;
+    } catch (error) {
+        let errorMessage: string;
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        } else {
+            errorMessage = 'An unknown error occurred';
         }
-        else {
-            let errorMessage: string;
-            if (error instanceof Error) {
-                errorMessage = error.message;
-            }
-            else {
-                errorMessage = 'An unknown error occurred';
-            }
-            return errorMessage;
-        }
+        return errorMessage;
     }
 }
 
@@ -50,75 +54,165 @@ async function ExchangeItem(exchange_id: number, token: string): Promise<void> {
     const requestBody: exchangeRequestBody = {
         exchange_id: exchange_id,
     };
-    const requestHeader = { Authorization: token } as AxiosRequestHeaders;
 
-    const response = await axios.post('https://gf2-bbs-api.sunborngame.com/community/item/exchange', requestBody, {
-        headers: requestHeader
-    });
-    console.log(response.data);
+    try {
+        const response = await fetch('https://gf2-bbs-api.sunborngame.com/community/item/exchange', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            },
+            body: JSON.stringify(requestBody)
+        });
 
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log(data);
+    } catch (error) {
+        if (error instanceof Error) {
+            console.error('Error:', error.message);
+        } else {
+            console.error('An unknown error occurred');
+        }
+    }
 }
 
 // 每日签到
 // 社区经验*55、社区积分*40、情报拼图*10
 async function SignIn(token: string): Promise<void> {
-    const requestHeader = { Authorization: token } as AxiosRequestHeaders;
     const requestBody = {};
 
-    const response = await axios.post('https://gf2-bbs-api.sunborngame.com/community/task/sign_in', requestBody, {
-        headers: requestHeader
-    });
-    console.log(response.data);
+    try {
+        const response = await fetch('https://gf2-bbs-api.sunborngame.com/community/task/sign_in', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            },
+            body: JSON.stringify(requestBody)
+        });
 
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log(data);
+    } catch (error) {
+        if (error instanceof Error) {
+            console.error('Error:', error.message);
+        } else {
+            console.error('An unknown error occurred');
+        }
+    }
 }
 
 // 获取最新发布的帖子列表，只返回前3个帖子的 ID
 async function GetTopicList(): Promise<number[]> {
-    const response: AxiosResponse = await axios.get('https://gf2-bbs-api.sunborngame.com/community/topic/list?sort_type=2');
-    const topicList = response.data.data.list.slice(0, 3);
-    const topicIDs: number[] = topicList.map((item: { topic_id: number }) => item.topic_id);
-    console.log(topicIDs);
-    return topicIDs;
+    try {
+        const response = await fetch('https://gf2-bbs-api.sunborngame.com/community/topic/list?sort_type=2');
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        const topicList = data.data.list.slice(0, 3);
+        const topicIDs: number[] = topicList.map((item: { topic_id: number }) => item.topic_id);
+        console.log(topicIDs);
+        return topicIDs;
+    } catch (error) {
+        if (error instanceof Error) {
+            console.error('Error:', error.message);
+        } else {
+            console.error('An unknown error occurred');
+        }
+        return [];
+    }
 }
 
 // 查看帖子，点赞和分享
 // 获得 40+40+40 社区积分
 async function TopicHandle(topic_id: number, token: string): Promise<void> {
-    const requestHeader = { Authorization: token } as AxiosRequestHeaders;
+    const requestHeader = {
+        'Authorization': token
+    };
 
-    // 访问
-    let response = await axios.get(`https://gf2-bbs-api.sunborngame.com/community/topic/${topic_id}?id=${topic_id}`,
-        {
+    try {
+        // 访问
+        let response = await fetch(`https://gf2-bbs-api.sunborngame.com/community/topic/${topic_id}?id=${topic_id}`, {
+            method: 'GET',
             headers: requestHeader
         });
-    console.log(response.data);
 
-    // 点赞
-    response = await axios.get(`https://gf2-bbs-api.sunborngame.com/community/topic/like/${topic_id}?id=${topic_id}`,
-        {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        let data = await response.json();
+        console.log(data);
+
+        // 点赞
+        response = await fetch(`https://gf2-bbs-api.sunborngame.com/community/topic/like/${topic_id}?id=${topic_id}`, {
+            method: 'GET',
             headers: requestHeader
         });
-    console.log(response.data);
 
-    // 分享
-    response = await axios.get(`https://gf2-bbs-api.sunborngame.com/community/topic/share/${topic_id}?id=${topic_id}`,
-        {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        data = await response.json();
+        console.log(data);
+
+        // 分享
+        response = await fetch(`https://gf2-bbs-api.sunborngame.com/community/topic/share/${topic_id}?id=${topic_id}`, {
+            method: 'GET',
             headers: requestHeader
         });
-    console.log(response.data);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        data = await response.json();
+        console.log(data);
+    } catch (error) {
+        if (error instanceof Error) {
+            console.error('Error:', error.message);
+        } else {
+            console.error('An unknown error occurred');
+        }
+    }
 }
 
 export async function DailyTask(userPayload: loginPayload): Promise<void> {
-    // 登录获取 jwt，获取帖子列表
-    const [jwtToken, topicList] = await Promise.all([Login(userPayload), GetTopicList()]);
+    try {
+        // 登录获取 jwt，获取帖子列表
+        const [jwtToken, topicList] = await Promise.all([Login(userPayload), GetTopicList()]);
 
-    // 完成每日任务获取积分
-    await Promise.all([
-        SignIn(jwtToken),
-        ...topicList.map(element => TopicHandle(element, jwtToken))
-    ]);
+        try {
+            // 完成每日任务获取积分
+            await Promise.all([
+                SignIn(jwtToken),
+                ...topicList.map(element => TopicHandle(element, jwtToken))
+            ]);
+        } catch (taskError) {
+            console.error('Error completing daily tasks:', taskError instanceof Error ? taskError.message : taskError);
+        }
 
-    // 用积分兑换物品
-    const exchangeIDs: number[] = [1, 1, 2, 3, 4, 5];
-    await Promise.all(exchangeIDs.map(element => ExchangeItem(element, jwtToken)));
+        try {
+            // 用积分兑换物品
+            const exchangeIDs: number[] = [1, 1, 2, 3, 4, 5];
+            await Promise.all(exchangeIDs.map(element => ExchangeItem(element, jwtToken)));
+        } catch (exchangeError) {
+            console.error('Error exchanging items:', exchangeError instanceof Error ? exchangeError.message : exchangeError);
+        }
+
+    } catch (loginOrListError) {
+        console.error('Error logging in or getting topic list:', loginOrListError instanceof Error ? loginOrListError.message : loginOrListError);
+    }
 }
