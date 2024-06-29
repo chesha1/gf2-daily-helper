@@ -7,6 +7,15 @@ export interface loginPayload {
     source: string;
 }
 
+interface loginResponse {
+    Code: number;
+    data: {
+        account: {
+            token: string;
+        };
+    };
+}
+
 // 登录，然后提取出 jwt
 async function Login(payload: loginPayload): Promise<string> {
     try {
@@ -17,7 +26,7 @@ async function Login(payload: loginPayload): Promise<string> {
             },
             body: JSON.stringify(payload)
         });
-        const data = await response.json();
+        const data: loginResponse = await response.json();
         console.log(data);
         if (data.Code === 0) {
             return data.data.account.token as string;
@@ -30,7 +39,7 @@ async function Login(payload: loginPayload): Promise<string> {
                 },
                 body: JSON.stringify(payload)
             });
-            const data = await response.json();
+            const data: loginResponse = await response.json();
             console.log(data);
             return data.data.account.token as string;
         }
