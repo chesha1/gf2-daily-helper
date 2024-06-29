@@ -14,7 +14,7 @@ async function Login(payload: loginPayload): Promise<string> {
     try {
         const response: AxiosResponse = await axios.post('https://gf2-bbs-api.sunborngame.com/login/account', payload);
         console.log(response.data);
-        if (response.data.code === 0) {
+        if (response.data.Code === 0) {
             return response.data.data.account.token as string;
         }
         else {
