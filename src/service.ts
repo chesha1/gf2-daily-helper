@@ -16,6 +16,14 @@ interface loginResponse {
     };
 }
 
+interface communityResponse {
+    data: {
+        list: {
+            topic_id: number;
+        }[];
+    };
+}
+
 // 登录，然后提取出 jwt
 async function Login(payload: loginPayload): Promise<string> {
     try {
@@ -26,7 +34,7 @@ async function Login(payload: loginPayload): Promise<string> {
             },
             body: JSON.stringify(payload)
         });
-        const data: loginResponse = await response.json();
+        const data = await response.json() as loginResponse;
         console.log(data);
         if (data.Code === 0) {
             return data.data.account.token as string;
@@ -39,7 +47,7 @@ async function Login(payload: loginPayload): Promise<string> {
                 },
                 body: JSON.stringify(payload)
             });
-            const data: loginResponse = await response.json();
+            const data = await response.json() as loginResponse;
             console.log(data);
             return data.data.account.token as string;
         }
@@ -128,7 +136,7 @@ async function GetTopicList(): Promise<number[]> {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        const data = await response.json();
+        const data = await response.json() as communityResponse;
         const topicList = data.data.list.slice(0, 3);
         const topicIDs: number[] = topicList.map((item: { topic_id: number }) => item.topic_id);
         console.log(topicIDs);
