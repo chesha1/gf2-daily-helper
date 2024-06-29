@@ -8,7 +8,7 @@
 
 类型选择“创建空白函数”，函数类型选择“事件函数”，区域建议选择默认的“华东-上海一”（这一选择影响后面的 cron 表达式）
 
-运行时选择 Node.js 16.17（如果有更加新的 Node.js 的版本请选择更新的版本），然后完成创建
+运行时选择 Node.js 18.15（如果有更加新的 Node.js 的版本请选择更新的版本），然后完成创建
 
 到 [Release 界面](https://github.com/chesha1/gf2-daily-helper/releases)下载 `deploy-huawei-cloud.zip`
 
