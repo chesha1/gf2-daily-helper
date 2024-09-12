@@ -1,6 +1,6 @@
 // Cloudflare Worker Paid Plan Entrypoint
 
-import crypto from 'node:crypto';
+import crypto from 'crypto';
 import { loginPayload, DailyTask } from './service';
 import { ExecutionContext } from '@cloudflare/workers-types';
 
@@ -10,7 +10,8 @@ export interface Env {
 }
 
 export default {
-	async fetch(): Promise<Response> {
+	async fetch(event: Event, env: Env, ctx: ExecutionContext): Promise<Response> {
+		// return this.scheduled(event, env, ctx);
 		return new Response('Forbidden', { status: 403 });
 	},
 	async scheduled(event: Event, env: Env, ctx: ExecutionContext): Promise<Response> {
