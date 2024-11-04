@@ -5,3 +5,7 @@ compatibility_flags = ["nodejs_compat_v2"]
 
 [triggers]
 crons = ["5 21 * * *"]
+
+[observability]
+enabled = true
+head_sampling_rate = 1
