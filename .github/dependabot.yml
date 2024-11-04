@@ -5,7 +5,7 @@ updates:
     directory: "/"
     schedule:
       interval: "daily" # 每天更新
-      time: "06:35"
+      time: "06:50"
     commit-message:
       prefix: "chore" # 可改为"deps"或其它自定义前缀
       prefix-development: "chore(dev)" # 用于开发依赖的提交前缀
