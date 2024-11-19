@@ -24,6 +24,12 @@ interface communityResponse {
     };
 }
 
+async function delay(ms: number): Promise<void> {
+    return new Promise(function (resolve: () => void): void {
+        setTimeout(resolve, ms);
+    });
+}
+
 // 登录，然后提取出 jwt
 async function Login(payload: loginPayload): Promise<string> {
     try {
@@ -224,7 +230,13 @@ export async function DailyTask(userPayload: loginPayload): Promise<void> {
         try {
             // 用积分兑换物品
             const exchangeIDs: number[] = [1, 1, 2, 3, 4, 5];
-            await Promise.all(exchangeIDs.map(element => ExchangeItem(element, jwtToken)));
+
+            // 请求过快在有的地方会报 429
+            // await Promise.all(exchangeIDs.map(element => ExchangeItem(element, jwtToken)));
+            for (const element of exchangeIDs) {
+                await ExchangeItem(element, jwtToken);
+                await delay(1000); // 每次请求间隔1秒
+            }
         } catch (exchangeError) {
             console.error('Error exchanging items:', exchangeError instanceof Error ? exchangeError.message : exchangeError);
         }
