@@ -213,9 +213,11 @@ async function TopicHandle(topic_id: number, token: string): Promise<void> {
 }
 
 export async function DailyTask(userPayload: loginPayload): Promise<void> {
+    console.log('Start daily tasks');
     try {
         // 登录获取 jwt，获取帖子列表
         const [jwtToken, topicList] = await Promise.all([Login(userPayload), GetTopicList()]);
+        console.log('Login and get topic list completed');
 
         try {
             // 完成每日任务获取积分
@@ -223,6 +225,7 @@ export async function DailyTask(userPayload: loginPayload): Promise<void> {
                 SignIn(jwtToken),
                 ...topicList.map(element => TopicHandle(element, jwtToken))
             ]);
+            console.log('Daily tasks completed');
         } catch (taskError) {
             console.error('Error completing daily tasks:', taskError instanceof Error ? taskError.message : taskError);
         }
@@ -237,6 +240,7 @@ export async function DailyTask(userPayload: loginPayload): Promise<void> {
                 await ExchangeItem(element, jwtToken);
                 await delay(1000); // 每次请求间隔1秒
             }
+            console.log('Items exchanged');
         } catch (exchangeError) {
             console.error('Error exchanging items:', exchangeError instanceof Error ? exchangeError.message : exchangeError);
         }
