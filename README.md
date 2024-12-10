@@ -22,7 +22,7 @@ Girls' Frontline 2 Exilium Official Community Check-in Helper
 1. [Cloudflare Worker](./docs/cloudflare.md)
 2. [AWS Lambda](./docs/aws.md)
 3. [华为云 函数工作流（推荐中国大陆用户使用）](./docs/huawei-cloud.md)
-4. [Github Actions](./docs/github-actions.md)
+4. [Github Actions（推荐网络能流畅访问 GitHub 的用户优先使用这个，而不是比较繁琐的华为云）](./docs/github-actions.md)
 
 阿里云和腾讯云不提供长久免费的 serverless 服务
 
