@@ -13,7 +13,7 @@
 		"@cloudflare/workers-types": "^4.20241205.0",
 		"@eslint/js": "^9.16.0",
 		"@types/crypto-js": "^4.2.2",
-		"@types/node": "^22.10.1",
+		"@types/node": "^22.10.2",
 		"eslint": "^9.16.0",
 		"globals": "^15.13.0",
 		"prettier": "3.4.2",
