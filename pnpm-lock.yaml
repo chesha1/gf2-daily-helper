@@ -23,12 +23,6 @@ importers:
       eslint:
         specifier: ^9.19.0
         version: 9.19.0
-      globals:
-        specifier: ^15.14.0
-        version: 15.14.0
-      prettier:
-        specifier: 3.4.2
-        version: 3.4.2
       typescript:
         specifier: ^5.7.2
         version: 5.7.2
@@ -582,10 +576,6 @@ packages:
     resolution: {integrity: sha512-oahGvuMGQlPw/ivIYBjVSrWAfWLBeku5tpPE2fOPLi+WHffIWbuh2tCjhyQhTBPMf5E9jDEH4FOmTYgYwbKwtQ==}
     engines: {node: '>=18'}
 
-  globals@15.14.0:
-    resolution: {integrity: sha512-OkToC372DtlQeje9/zHIo5CT8lRP/FUgEOKBEhU4e0abL7J7CD24fD9ohiLN5hagG/kWCYj4K5oaxxtj2Z0Dig==}
-    engines: {node: '>=18'}
-
   graphemer@1.4.0:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
 
@@ -748,11 +738,6 @@ packages:
   prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
-
-  prettier@3.4.2:
-    resolution: {integrity: sha512-e9MewbtFo+Fevyuxn/4rrcDAaq0IYxPGLvObpQjiZBMAzB9IGmzlnG9RZy3FFas+eBMu2vA0CszMeduow5dIuQ==}
-    engines: {node: '>=14'}
-    hasBin: true
 
   printable-characters@1.0.42:
     resolution: {integrity: sha512-dKp+C4iXWK4vVYZmYSd0KBH5F/h1HoZRsbJ82AVKRO3PEo8L4lBS/vLwhVtpwwuYcoIsVY+1JYKR268yn480uQ==}
@@ -1450,8 +1435,6 @@ snapshots:
 
   globals@14.0.0: {}
 
-  globals@15.14.0: {}
-
   graphemer@1.4.0: {}
 
   has-flag@4.0.0: {}
@@ -1596,8 +1579,6 @@ snapshots:
   picomatch@2.3.1: {}
 
   prelude-ls@1.2.1: {}
-
-  prettier@3.4.2: {}
 
   printable-characters@1.0.42: {}
 
