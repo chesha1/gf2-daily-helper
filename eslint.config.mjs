@@ -18,4 +18,5 @@ export default [
   // do not use Stylistic, as it conflicts with typescript-eslint
   // especially with the indent rules
   // see also: https://github.com/typescript-eslint/typescript-eslint/issues/1824
+  // see also: https://typescript-eslint.io/users/what-about-formatting/
 ];
