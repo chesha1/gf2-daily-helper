@@ -18,7 +18,6 @@ export default {
 		const userPayload: loginPayload = {
 			account_name: env.ACCOUNT_NAME,
 			passwd: crypto.createHash('md5').update(env.PASSWORD).digest('hex'),
-			source: 'phone',
 		};
 
 		await DailyTask(userPayload);

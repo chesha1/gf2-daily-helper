@@ -7,7 +7,6 @@ async function handler(event: Event) {
     const userPayload: loginPayload = {
         account_name: process.env.ACCOUNT_NAME as string,
         passwd: crypto.createHash('md5').update(process.env.PASSWORD as string).digest('hex'),
-        source: 'phone',
     };
 
     await DailyTask(userPayload);

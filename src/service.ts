@@ -4,11 +4,12 @@
 export interface loginPayload {
     account_name: string;
     passwd: string;
-    source: string;
+    source?: string;
 }
 
 interface loginResponse {
     Code: number;
+    Message: string;
     data: {
         account: {
             token: string;
@@ -32,6 +33,13 @@ async function delay(ms: number): Promise<void> {
 
 // 登录，然后提取出 jwt
 async function Login(payload: loginPayload): Promise<string> {
+    // 检查是否是邮箱
+    if (payload.account_name.indexOf('@') === -1) {
+        payload.source = 'phone';
+    } else {
+        payload.source = 'mail';
+    }
+
     try {
         const response = await fetch('https://gf2-bbs-api.sunborngame.com/login/account', {
             method: 'POST',
@@ -41,22 +49,13 @@ async function Login(payload: loginPayload): Promise<string> {
             body: JSON.stringify(payload)
         });
         const data = await response.json() as loginResponse;
-        console.log(data);
         if (data.Code === 0) {
-            return data.data.account.token as string;
-        } else {
-            payload.source = 'mail';
-            const response = await fetch('https://gf2-bbs-api.sunborngame.com/login/account', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload)
-            });
-            const data = await response.json() as loginResponse;
+            data.Message = 'Login success';
             console.log(data);
-            return data.data.account.token as string;
+        } else {
+            console.log(data);
         }
+        return data.data.account.token as string;
     } catch (error) {
         let errorMessage: string;
         if (error instanceof Error) {
@@ -64,6 +63,7 @@ async function Login(payload: loginPayload): Promise<string> {
         } else {
             errorMessage = 'An unknown error occurred';
         }
+        console.log(error);
         return errorMessage;
     }
 }

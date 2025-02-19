@@ -9,7 +9,6 @@ export async function handler(event: Event, context: Context) {
     const userPayload: loginPayload = {
         account_name: context.getUserData('ACCOUNT_NAME') as string,
         passwd: crypto.createHash('md5').update(context.getUserData('PASSWORD') as string).digest('hex'),
-        source: 'phone',
     };
 
     await DailyTask(userPayload);
