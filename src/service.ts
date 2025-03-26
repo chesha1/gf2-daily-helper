@@ -232,7 +232,7 @@ export async function DailyTask(userPayload: loginPayload): Promise<void> {
 
         try {
             // 用积分兑换物品
-            const exchangeIDs: number[] = [1, 1, 2, 3, 4, 5];
+            const exchangeIDs: number[] = [1, 1, 2, 3, 4, 5, 7];
 
             // 请求过快在有的地方会报 429
             // await Promise.all(exchangeIDs.map(element => ExchangeItem(element, jwtToken)));
