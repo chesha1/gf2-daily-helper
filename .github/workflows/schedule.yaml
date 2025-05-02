@@ -39,4 +39,4 @@ jobs:
     permissions:
       actions: write
     steps:
-      - uses: HGokouRuri/gh-workflow-keepalive@v1
+      - uses: HGokouRuri/gh-workflow-keepalive@v3.0.0
