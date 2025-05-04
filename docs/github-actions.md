@@ -13,7 +13,7 @@
 5. 点击仓库的 Actions，再点击 I understand my workflows, go ahead and enable them 启用 Actions
 6. 在侧边栏找到 Scheduled Job 并点击，再点击右侧的 Enable workflow 启用 Actions
 
-这样在北京时间，每天的早上 2 点 5 分，就会触发任务了
+这样在北京时间，每天的 0 点 1 分，就会触发任务了
 ## 如果你是不太懂 GitHub 的用户
 1. Fork 本仓库，如下图
    ![1](./assets/github-actions-1.png)
@@ -45,5 +45,6 @@ GitHub Actions 的定时任务并不会准时运行，一般需要排队一会�
 
 如果不想这个任务继续运行，把 `RUN_TASK` 值从 `true` 改为其他任意值即可，或者在 Actions 界面手动 Disable workflow
 
-GitHub 官方说，如果仓库 60 天没有活动，会暂停所有 workflows，所以我引入了[一个 workflow ](https://github.com/marketplace/actions/keepalive-workflow)来保活，暂时无法测试是否有效果
+GitHub 官方说，如果仓库 60 天没有活动，会暂停所有 workflows，所以需要每 60 天上来随便操作一下提交点东西，或者等这个 actions 被 disable 了，再手动 enable 一下
 
+如果嫌这样繁琐，可以使用其他云厂商的 serverless 服务，那些可以一劳永逸，部署完之后就会一直运行
