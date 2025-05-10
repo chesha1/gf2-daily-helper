@@ -1,4 +1,6 @@
 # gf2-daily-helper
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/chesha1/gf2-daily-helper)
+
 Girls' Frontline 2 Exilium Official Community Check-in Helper
 
 [少前 2 国服官网社区](https://gf2-bbs.sunborngame.com/)每日任务助手
