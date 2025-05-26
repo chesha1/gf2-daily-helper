@@ -10,7 +10,7 @@
 		"clean": "rm -rf dist"
 	},
 	"devDependencies": {
-		"@cloudflare/workers-types": "^4.20250519.0",
+		"@cloudflare/workers-types": "^4.20250525.0",
 		"@eslint/js": "^9.27.0",
 		"@types/crypto-js": "^4.2.2",
 		"@types/node": "^22.15.3",
