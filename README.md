@@ -20,11 +20,12 @@ Girls' Frontline 2 Exilium Official Community Check-in Helper
 由于每天获得的积分，在兑换完每日资源后，只剩 10 个积分，所以有时候需要积累几天，不能立即兑换信息核
 
 ## 使用方法
-目前提供 4 种部署方法：
+目前提供 5 种使用方法：
 1. [Cloudflare Worker](./docs/cloudflare.md)
 2. [AWS Lambda](./docs/aws.md)
 3. [华为云 函数工作流（推荐中国大陆用户使用）](./docs/huawei-cloud.md)
 4. [Github Actions（推荐网络能流畅访问 GitHub 的用户优先使用这个，而不是比较繁琐的华为云，不过需要每 60 天激活一次）](./docs/github-actions.md)
+5. [本地运行](./docs/local.md)
 
 阿里云和腾讯云不提供长久免费的 serverless 服务
 
