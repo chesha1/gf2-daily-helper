@@ -12,7 +12,7 @@
 	},
 	"devDependencies": {
 		"@cloudflare/workers-types": "^4.20250613.0",
-		"@eslint/js": "^9.29.0",
+		"@eslint/js": "^9.30.0",
 		"@types/crypto-js": "^4.2.2",
 		"@types/node": "^24.0.1",
 		"eslint": "^9.28.0",
