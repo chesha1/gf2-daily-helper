@@ -1,10 +1,17 @@
 // daily tasks logic
 // shared by entrypoints of cloudflare worker, aws lambda and so on
 
+import crypto from 'node:crypto';
+
 export interface loginPayload {
     account_name: string;
     passwd: string;
     source?: string;
+    encryptKey: string;
+}
+
+export interface taskConfig {
+    encryptKey: string;
 }
 
 interface loginResponse {
@@ -25,6 +32,30 @@ interface communityResponse {
     };
 }
 
+
+function encryptData(t: string, key: string): string {
+    const iv = key;
+
+    const cipher = crypto.createCipheriv(
+        'aes-128-cbc',
+        Buffer.from(key, 'utf8'),
+        Buffer.from(iv, 'utf8')
+    );
+
+    let encrypted = cipher.update(t, 'utf8', 'hex');
+    encrypted += cipher.final('hex');
+
+    const base64 = Buffer.from(encrypted, 'hex').toString('base64');
+
+    const result = base64
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=+$/, '');
+
+    return result;
+}
+
+
 async function delay(ms: number): Promise<void> {
     return new Promise(function (resolve: () => void): void {
         setTimeout(resolve, ms);
@@ -40,13 +71,20 @@ async function Login(payload: loginPayload): Promise<string> {
         payload.source = 'mail';
     }
 
+    // 加密账号和密码
+    const encryptedPayload = {
+        account_name: encryptData(payload.account_name, payload.encryptKey),
+        passwd: encryptData(payload.passwd, payload.encryptKey),
+        source: payload.source
+    };
+
     try {
-        const response = await fetch('https://gf2-bbs-api.sunborngame.com/login/account', {
+        const response = await fetch('https://gf2-bbs-api.exiliumgf.com/login/account', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(encryptedPayload)
         });
         const data = await response.json() as loginResponse;
         if (data.Code === 0) {
@@ -79,7 +117,7 @@ async function ExchangeItem(exchange_id: number, token: string): Promise<void> {
     };
 
     try {
-        const response = await fetch('https://gf2-bbs-api.sunborngame.com/community/item/exchange', {
+        const response = await fetch('https://gf2-bbs-api.exiliumgf.com/community/item/exchange', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -109,7 +147,7 @@ async function SignIn(token: string): Promise<void> {
     const requestBody = {};
 
     try {
-        const response = await fetch('https://gf2-bbs-api.sunborngame.com/community/task/sign_in', {
+        const response = await fetch('https://gf2-bbs-api.exiliumgf.com/community/task/sign_in', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -136,7 +174,7 @@ async function SignIn(token: string): Promise<void> {
 // 获取最新发布的帖子列表，只返回前3个帖子的 ID
 async function GetTopicList(): Promise<number[]> {
     try {
-        const response = await fetch('https://gf2-bbs-api.sunborngame.com/community/topic/list?sort_type=2');
+        const response = await fetch('https://gf2-bbs-api.exiliumgf.com/community/topic/list?sort_type=2');
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -166,7 +204,7 @@ async function TopicHandle(topic_id: number, token: string): Promise<void> {
 
     try {
         // 访问
-        let response = await fetch(`https://gf2-bbs-api.sunborngame.com/community/topic/${topic_id}?id=${topic_id}`, {
+        let response = await fetch(`https://gf2-bbs-api.exiliumgf.com/community/topic/${topic_id}?id=${topic_id}`, {
             method: 'GET',
             headers: requestHeader
         });
@@ -179,7 +217,7 @@ async function TopicHandle(topic_id: number, token: string): Promise<void> {
         console.log(data);
 
         // 点赞
-        response = await fetch(`https://gf2-bbs-api.sunborngame.com/community/topic/like/${topic_id}?id=${topic_id}`, {
+        response = await fetch(`https://gf2-bbs-api.exiliumgf.com/community/topic/like/${topic_id}?id=${topic_id}`, {
             method: 'GET',
             headers: requestHeader
         });
@@ -192,7 +230,7 @@ async function TopicHandle(topic_id: number, token: string): Promise<void> {
         console.log(data);
 
         // 分享
-        response = await fetch(`https://gf2-bbs-api.sunborngame.com/community/topic/share/${topic_id}?id=${topic_id}`, {
+        response = await fetch(`https://gf2-bbs-api.exiliumgf.com/community/topic/share/${topic_id}?id=${topic_id}`, {
             method: 'GET',
             headers: requestHeader
         });

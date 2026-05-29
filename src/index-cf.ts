@@ -7,6 +7,7 @@ import { ExecutionContext } from '@cloudflare/workers-types';
 export interface Env {
 	PASSWORD: string;
 	ACCOUNT_NAME: string;
+	ENCRYPTION_KEY: string;
 }
 
 export default {
@@ -18,6 +19,7 @@ export default {
 		const userPayload: loginPayload = {
 			account_name: env.ACCOUNT_NAME,
 			passwd: crypto.createHash('md5').update(env.PASSWORD).digest('hex'),
+			encryptKey: env.ENCRYPTION_KEY,
 		};
 
 		await DailyTask(userPayload);
